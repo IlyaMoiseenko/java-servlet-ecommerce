@@ -1,5 +1,6 @@
 package by.moiseenko.ecommerce.listener;
 
+import by.moiseenko.ecommerce.config.JdbcConnection;
 import org.flywaydb.core.Flyway;
 
 import javax.servlet.ServletContextEvent;
@@ -7,17 +8,13 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 @WebListener
-public class ContextInitializer implements ServletContextListener {
-
-    private static final String URL = "jdbc:postgresql://localhost:5432/servlet-ecommerce";
-    private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "root";
+public class FlywayInitializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 
         Flyway flyway = Flyway.configure()
-                .dataSource(URL, USERNAME, PASSWORD)
+                .dataSource(JdbcConnection.getFlywayDataSource())
                 .load();
 
         flyway.migrate();
