@@ -3,6 +3,7 @@ package by.moiseenko.ecommerce.repository;
 import by.moiseenko.ecommerce.config.JdbcConnection;
 import by.moiseenko.ecommerce.domain.Address;
 import by.moiseenko.ecommerce.repository.mapper.AddressResultSetMapper;
+import by.moiseenko.ecommerce.repository.mapper.ResultSetMapper;
 import by.moiseenko.ecommerce.repository.query.AddressQuery;
 
 import java.sql.Connection;
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 public class JdbcAddressRepository implements AddressRepository {
 
-    private final AddressResultSetMapper resultSetMapper = new AddressResultSetMapper();
+    private final ResultSetMapper<Address> resultSetMapper = new AddressResultSetMapper();
 
     @Override
     public Long save(Address domain) {

@@ -3,6 +3,7 @@ package by.moiseenko.ecommerce.repository;
 import by.moiseenko.ecommerce.config.JdbcConnection;
 import by.moiseenko.ecommerce.domain.Country;
 import by.moiseenko.ecommerce.repository.mapper.CountryResultSetMapper;
+import by.moiseenko.ecommerce.repository.mapper.ResultSetMapper;
 import by.moiseenko.ecommerce.repository.query.CountryQuery;
 
 import java.sql.Connection;
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 public class JdbcCountryRepository implements CountryRepository {
 
-    private final CountryResultSetMapper resultSetMapper = new CountryResultSetMapper();
+    private final ResultSetMapper<Country> resultSetMapper = new CountryResultSetMapper();
 
     @Override
     public Long save(Country domain) {

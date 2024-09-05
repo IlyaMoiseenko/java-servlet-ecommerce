@@ -2,6 +2,7 @@ package by.moiseenko.ecommerce.repository;
 
 import by.moiseenko.ecommerce.config.JdbcConnection;
 import by.moiseenko.ecommerce.domain.Role;
+import by.moiseenko.ecommerce.repository.mapper.ResultSetMapper;
 import by.moiseenko.ecommerce.repository.mapper.RoleResultSetMapper;
 import by.moiseenko.ecommerce.repository.query.RoleQuery;
 
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 public class JdbcRoleRepository implements RoleRepository {
 
-    private final RoleResultSetMapper resultSetMapper = new RoleResultSetMapper();
+    private final ResultSetMapper<Role> resultSetMapper = new RoleResultSetMapper();
 
     @Override
     public Optional<Role> findByName(String name) {
