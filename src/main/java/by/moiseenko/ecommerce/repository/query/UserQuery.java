@@ -14,7 +14,14 @@ public class UserQuery {
             JOIN %s user_role on user.id = user_role.user_id
             JOIN %s role on user_role.role_id = role.id
             WHERE user.email = ?
-            """.formatted(USER, USER_ADDRESS, ADDRESS, COUNTRY, USER_ROLE, ROLE);
+            """.formatted(
+                    USER.getName(),
+                    USER_ADDRESS.getName(),
+                    ADDRESS.getName(),
+                    COUNTRY.getName(),
+                    USER_ROLE.getName(),
+                    ROLE.getName()
+            );
 
     public static final String FIND_BY_FIRST_NAME =
             """
@@ -26,7 +33,14 @@ public class UserQuery {
             JOIN %s user_role on user.id = user_role.user_id
             JOIN %s role on user_role.role_id = role.id
             WHERE user.first_name = ?
-            """.formatted(USER, USER_ADDRESS, ADDRESS, COUNTRY, USER_ROLE, ROLE);
+            """.formatted(
+                    USER.getName(),
+                    USER_ADDRESS.getName(),
+                    ADDRESS.getName(),
+                    COUNTRY.getName(),
+                    USER_ROLE.getName(),
+                    ROLE.getName()
+            );
 
     public static final String FIND_BY_ID =
             """
@@ -38,7 +52,14 @@ public class UserQuery {
             JOIN %s user_role on user.id = user_role.user_id
             JOIN %s role on user_role.role_id = role.id
             WHERE user.id = ?
-            """.formatted(USER, USER_ADDRESS, ADDRESS, COUNTRY, USER_ROLE, ROLE);
+            """.formatted(
+                    USER.getName(),
+                    USER_ADDRESS.getName(),
+                    ADDRESS.getName(),
+                    COUNTRY.getName(),
+                    USER_ROLE.getName(),
+                    ROLE.getName()
+            );
 
     public static final String FIND_ALL =
             """
@@ -49,30 +70,37 @@ public class UserQuery {
             JOIN %s country on address.country_id = country.id
             JOIN %s user_role on user.id = user_role.user_id
             JOIN %s role on user_role.role_id = role.id
-            """.formatted(USER, USER_ADDRESS, ADDRESS, COUNTRY, USER_ROLE, ROLE);
+            """.formatted(
+                    USER.getName(),
+                    USER_ADDRESS.getName(),
+                    ADDRESS.getName(),
+                    COUNTRY.getName(),
+                    USER_ROLE.getName(),
+                    ROLE.getName()
+            );
 
     public static final String SAVE =
             """
             INSERT INTO %s (email, password, first_name, last_name)
             VALUES (?, ?, ?, ?)
-            """.formatted(USER);
+            """.formatted(USER.getName());
 
     public static final String REMOVE_BY_ID =
             """
             DELETE FROM %s
             WHERE id = ?
-            """.formatted(USER);
+            """.formatted(USER.getName());
 
     public static final String UPDATE_BY_ID =
             """
             UPDATE %s
-            SET (email, password, first_name, last_name)
+            SET email = ?, password = ?, first_name = ?, last_name = ?
             WHERE id = ?
-            """.formatted(USER);
+            """.formatted(USER.getName());
 
     public static final String ADD_ROLE =
             """
             INSERT INTO %s (user_id, role_id)
             VALUES (?, ?)
-            """.formatted(USER_ROLE);
+            """.formatted(USER_ROLE.getName());
 }

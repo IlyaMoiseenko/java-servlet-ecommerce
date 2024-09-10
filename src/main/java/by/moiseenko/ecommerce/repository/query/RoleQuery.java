@@ -1,6 +1,6 @@
 package by.moiseenko.ecommerce.repository.query;
 
-import by.moiseenko.ecommerce.db.TableName;
+import static by.moiseenko.ecommerce.db.TableName.ROLE;
 
 public class RoleQuery {
 
@@ -8,39 +8,39 @@ public class RoleQuery {
             """
             INSERT INTO %s (name)
             VALUES (?)
-            """.formatted(TableName.ROLE);
+            """.formatted(ROLE.getName());
 
     public static final String FIND_BY_ID =
             """
             SELECT *
             FROM %s role
             WHERE role.id = ?
-            """.formatted(TableName.ROLE);
+            """.formatted(ROLE.getName());
 
     public static final String FIND_BY_NAME =
             """
             SELECT *
             FROM %s
             WHERE name = ?
-            """.formatted(TableName.ROLE);
+            """.formatted(ROLE.getName());
 
     public static final String FIND_ALL =
             """
             SELECT *
             FROM %s
-            """.formatted(TableName.ROLE);
+            """.formatted(ROLE.getName());
 
     public static final String REMOVE_BY_ID =
             """
             DELETE
             FROM %s
             WHERE id = ?
-            """.formatted(TableName.ROLE);
+            """.formatted(ROLE.getName());
 
     public static final String UPDATE_BY_ID =
             """
             UPDATE %s
-            SET (name)
+            SET name = ?
             WHERE id = ?
-            """.formatted(TableName.ROLE);
+            """.formatted(ROLE.getName());
 }

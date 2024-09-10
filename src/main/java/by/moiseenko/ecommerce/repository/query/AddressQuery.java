@@ -9,7 +9,7 @@ public class AddressQuery {
             """
             INSERT INTO %s (city, postal_code, street_name, apartment_number, country_id)
             VALUES (?, ?, ?, ?, ?)
-            """.formatted(ADDRESS);
+            """.formatted(ADDRESS.getName());
 
     public static final String FIND_BY_ID =
             """
@@ -17,24 +17,24 @@ public class AddressQuery {
             FROM %s address
             JOIN %s country on address.country_id = country.id
             WHERE address.id = ?
-            """.formatted(ADDRESS, COUNTRY);
+            """.formatted(ADDRESS.getName(), COUNTRY.getName());
 
     public static final String FIND_ALL =
             """
             SELECT *
             FROM %s
-            """.formatted(ADDRESS);
+            """.formatted(ADDRESS.getName());
 
     public static final String REMOVE_BY_ID =
             """
             DELETE FROM %s
             WHERE id = ?
-            """.formatted(ADDRESS);
+            """.formatted(ADDRESS.getName());
 
     public static final String UPDATE_BY_ID =
             """
             UPDATE %s
-            SET (city, postal_code, street_name, apartment_number, country_id)
+            SET city = ?, postal_code = ?, street_name = ?, apartment_number = ?, country_id = ?
             WHERE id = ?
-            """.formatted(ADDRESS);
+            """.formatted(ADDRESS.getName());
 }
