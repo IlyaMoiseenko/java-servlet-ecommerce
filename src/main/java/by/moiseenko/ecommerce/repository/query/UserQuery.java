@@ -8,11 +8,11 @@ public class UserQuery {
             """
             SELECT *
             FROM %s user
-            JOIN %s user_address on user.id = user_address.user_id
-            JOIN %s address on user_address.address.id = address.id
-            JOIN %s country on address.country_id = country.id
-            JOIN %s user_role on user.id = user_role.user_id
-            JOIN %s role on user_role.role_id = role.id
+            JOIN %s user_address on user.user_id = user_address.user_id
+            JOIN %s address on user_address.address_id = address.address_id
+            JOIN %s country on address.country_id = country.country_id
+            JOIN %s user_role on user.user_id = user_role.user_id
+            JOIN %s role on user_role.role_id = role.role_id
             WHERE user.email = ?
             """.formatted(
                     USER.getName(),
@@ -27,11 +27,11 @@ public class UserQuery {
             """
             SELECT *
             FROM %s user
-            JOIN %s user_address on user.id = user_address.user_id
-            JOIN %s address on user_address.address.id = address.id
-            JOIN %s country on address.country_id = country.id
-            JOIN %s user_role on user.id = user_role.user_id
-            JOIN %s role on user_role.role_id = role.id
+            JOIN %s user_address on user.user_id = user_address.user_id
+            JOIN %s address on user_address.address_id = address.address_id
+            JOIN %s country on address.country_id = country.country_id
+            JOIN %s user_role on user.user_id = user_role.user_id
+            JOIN %s role on user_role.role_id = role.role_id
             WHERE user.first_name = ?
             """.formatted(
                     USER.getName(),
@@ -46,12 +46,12 @@ public class UserQuery {
             """
             SELECT *
             FROM %s user
-            JOIN %s user_address on user.id = user_address.user_id
-            JOIN %s address on user_address.address.id = address.id
-            JOIN %s country on address.country_id = country.id
-            JOIN %s user_role on user.id = user_role.user_id
-            JOIN %s role on user_role.role_id = role.id
-            WHERE user.id = ?
+            JOIN %s user_address on user.user_id = user_address.user_id
+            JOIN %s address on user_address.address_id = address.address_id
+            JOIN %s country on address.country_id = country.country_id
+            JOIN %s user_role on user.user_id = user_role.user_id
+            JOIN %s role on user_role.role_id = role.role_id
+            WHERE user.user_id = ?
             """.formatted(
                     USER.getName(),
                     USER_ADDRESS.getName(),
@@ -65,11 +65,11 @@ public class UserQuery {
             """
             SELECT *
             FROM %s user
-            JOIN %s user_address on user.id = user_address.user_id
-            JOIN %s address on user_address.address.id = address.id
-            JOIN %s country on address.country_id = country.id
-            JOIN %s user_role on user.id = user_role.user_id
-            JOIN %s role on user_role.role_id = role.id
+            JOIN %s user_address on user.user_id = user_address.user_id
+            JOIN %s address on user_address.address_id = address.address_id
+            JOIN %s country on address.country_id = country.country_id
+            JOIN %s user_role on user.user_id = user_role.user_id
+            JOIN %s role on user_role.role_id = role.role_id
             """.formatted(
                     USER.getName(),
                     USER_ADDRESS.getName(),
@@ -88,14 +88,14 @@ public class UserQuery {
     public static final String REMOVE_BY_ID =
             """
             DELETE FROM %s
-            WHERE id = ?
+            WHERE user_id = ?
             """.formatted(USER.getName());
 
     public static final String UPDATE_BY_ID =
             """
             UPDATE %s
             SET email = ?, password = ?, first_name = ?, last_name = ?
-            WHERE id = ?
+            WHERE user_id = ?
             """.formatted(USER.getName());
 
     public static final String ADD_ROLE =

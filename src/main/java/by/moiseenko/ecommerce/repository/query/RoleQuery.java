@@ -14,7 +14,7 @@ public class RoleQuery {
             """
             SELECT *
             FROM %s role
-            WHERE role.id = ?
+            WHERE role.role_id = ?
             """.formatted(ROLE.getName());
 
     public static final String FIND_BY_NAME =
@@ -34,13 +34,13 @@ public class RoleQuery {
             """
             DELETE
             FROM %s
-            WHERE id = ?
+            WHERE role_id = ?
             """.formatted(ROLE.getName());
 
     public static final String UPDATE_BY_ID =
             """
             UPDATE %s
             SET name = ?
-            WHERE id = ?
+            WHERE role_id = ?
             """.formatted(ROLE.getName());
 }

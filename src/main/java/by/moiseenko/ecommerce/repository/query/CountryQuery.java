@@ -18,7 +18,7 @@ public class CountryQuery {
             """
             SELECT *
             FROM %s country
-            WHERE country.id = ?
+            WHERE country.country_id = ?
             """.formatted(COUNTRY.getName());
 
     public static final String FIND_BY_NAME =
@@ -38,13 +38,13 @@ public class CountryQuery {
             """
             DELETE
             FROM %s
-            WHERE id = ?
+            WHERE country_id = ?
             """.formatted(COUNTRY.getName());
 
     public static final String UPDATE_BY_ID =
             """
             UPDATE %s
             SET name = ?
-            WHERE id = ?
+            WHERE country_id = ?
             """.formatted(COUNTRY.getName());
 }

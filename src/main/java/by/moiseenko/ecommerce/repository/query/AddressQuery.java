@@ -15,8 +15,8 @@ public class AddressQuery {
             """
             SELECT *
             FROM %s address
-            JOIN %s country on address.country_id = country.id
-            WHERE address.id = ?
+            JOIN %s country on address.country_id = country.country_id
+            WHERE address.address_id = ?
             """.formatted(ADDRESS.getName(), COUNTRY.getName());
 
     public static final String FIND_ALL =
@@ -28,13 +28,13 @@ public class AddressQuery {
     public static final String REMOVE_BY_ID =
             """
             DELETE FROM %s
-            WHERE id = ?
+            WHERE address_id = ?
             """.formatted(ADDRESS.getName());
 
     public static final String UPDATE_BY_ID =
             """
             UPDATE %s
             SET city = ?, postal_code = ?, street_name = ?, apartment_number = ?, country_id = ?
-            WHERE id = ?
+            WHERE address_id = ?
             """.formatted(ADDRESS.getName());
 }
