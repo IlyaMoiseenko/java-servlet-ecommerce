@@ -7,13 +7,13 @@ public class UserQuery {
     public static final String FIND_BY_EMAIL =
             """
             SELECT *
-            FROM %s user
-            JOIN %s user_address on user.user_id = user_address.user_id
+            FROM %s u
+            JOIN %s user_address on u.user_id = user_address.user_id
             JOIN %s address on user_address.address_id = address.address_id
             JOIN %s country on address.country_id = country.country_id
-            JOIN %s user_role on user.user_id = user_role.user_id
+            JOIN %s user_role on u.user_id = user_role.user_id
             JOIN %s role on user_role.role_id = role.role_id
-            WHERE user.email = ?
+            WHERE u.email = ?
             """.formatted(
                     USER.getName(),
                     USER_ADDRESS.getName(),
@@ -26,13 +26,13 @@ public class UserQuery {
     public static final String FIND_BY_FIRST_NAME =
             """
             SELECT *
-            FROM %s user
-            JOIN %s user_address on user.user_id = user_address.user_id
+            FROM %s u
+            JOIN %s user_address on u.user_id = user_address.user_id
             JOIN %s address on user_address.address_id = address.address_id
             JOIN %s country on address.country_id = country.country_id
-            JOIN %s user_role on user.user_id = user_role.user_id
+            JOIN %s user_role on u.user_id = user_role.user_id
             JOIN %s role on user_role.role_id = role.role_id
-            WHERE user.first_name = ?
+            WHERE u.first_name = ?
             """.formatted(
                     USER.getName(),
                     USER_ADDRESS.getName(),
@@ -45,13 +45,13 @@ public class UserQuery {
     public static final String FIND_BY_ID =
             """
             SELECT *
-            FROM %s user
-            JOIN %s user_address on user.user_id = user_address.user_id
+            FROM %s u
+            JOIN %s user_address on u.user_id = user_address.user_id
             JOIN %s address on user_address.address_id = address.address_id
             JOIN %s country on address.country_id = country.country_id
-            JOIN %s user_role on user.user_id = user_role.user_id
+            JOIN %s user_role on u.user_id = user_role.user_id
             JOIN %s role on user_role.role_id = role.role_id
-            WHERE user.user_id = ?
+            WHERE u.user_id = ?
             """.formatted(
                     USER.getName(),
                     USER_ADDRESS.getName(),
@@ -64,11 +64,11 @@ public class UserQuery {
     public static final String FIND_ALL =
             """
             SELECT *
-            FROM %s user
-            JOIN %s user_address on user.user_id = user_address.user_id
+            FROM %s u
+            JOIN %s user_address on u.user_id = user_address.user_id
             JOIN %s address on user_address.address_id = address.address_id
             JOIN %s country on address.country_id = country.country_id
-            JOIN %s user_role on user.user_id = user_role.user_id
+            JOIN %s user_role on u.user_id = user_role.user_id
             JOIN %s role on user_role.role_id = role.role_id
             """.formatted(
                     USER.getName(),
