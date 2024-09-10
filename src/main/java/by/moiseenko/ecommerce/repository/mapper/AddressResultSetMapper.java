@@ -1,6 +1,7 @@
 package by.moiseenko.ecommerce.repository.mapper;
 
 import by.moiseenko.ecommerce.domain.Address;
+import by.moiseenko.ecommerce.domain.Country;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,14 +15,18 @@ public class AddressResultSetMapper implements ResultSetMapper<Address> {
     @Override
     public Address mapRow(ResultSet resultSet) throws SQLException {
 
+        Country country = countryMapper.mapRow(resultSet);
+        resultSet.beforeFirst();
+
         if (resultSet.next()) {
             return Address
                     .builder()
+                    .id(resultSet.getLong("address_id"))
                     .city(resultSet.getString("city"))
                     .postalCode(resultSet.getInt("postal_code"))
                     .streetName(resultSet.getString("street_name"))
                     .apartmentNumber(resultSet.getInt("apartment_number"))
-                    .country(countryMapper.mapRow(resultSet))
+                    .country(country)
                     .build();
         }
 
@@ -39,8 +44,11 @@ public class AddressResultSetMapper implements ResultSetMapper<Address> {
                     .postalCode(resultSet.getInt("postal_code"))
                     .streetName(resultSet.getString("street_name"))
                     .apartmentNumber(resultSet.getInt("apartment_number"))
-                    .country(countryMapper.mapRow(resultSet))
                     .build();
+
+            resultSet.previous();
+
+            build.setCountry(countryMapper.mapRow(resultSet));
 
             addresses.add(build);
         }

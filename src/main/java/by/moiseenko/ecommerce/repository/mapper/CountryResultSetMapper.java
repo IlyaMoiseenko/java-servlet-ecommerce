@@ -15,7 +15,8 @@ public class CountryResultSetMapper implements ResultSetMapper<Country> {
         if (resultSet.next()) {
             return Country
                     .builder()
-                    .name(resultSet.getString("name"))
+                    .id(resultSet.getLong("country_id"))
+                    .name(resultSet.getString("country_name"))
                     .build();
         }
 
@@ -30,7 +31,8 @@ public class CountryResultSetMapper implements ResultSetMapper<Country> {
         while (resultSet.next()) {
             Country build = Country
                     .builder()
-                    .name(resultSet.getString("name"))
+                    .id(resultSet.getLong("country_id"))
+                    .name(resultSet.getString("country_name"))
                     .build();
 
             countries.add(build);

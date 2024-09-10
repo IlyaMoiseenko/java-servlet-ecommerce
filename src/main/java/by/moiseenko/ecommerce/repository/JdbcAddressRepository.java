@@ -45,7 +45,11 @@ public class JdbcAddressRepository implements AddressRepository {
     public Optional<Address> findById(Long id) {
 
         try (Connection connection = JdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(AddressQuery.FIND_BY_ID);
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    AddressQuery.FIND_BY_ID,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY
+            );
             preparedStatement.setLong(1, id);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -62,7 +66,10 @@ public class JdbcAddressRepository implements AddressRepository {
     public List<Address> findAll() {
 
         try (Connection connection = JdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(AddressQuery.FIND_ALL);
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    AddressQuery.FIND_ALL,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 return resultSetMapper.mapRows(resultSet);

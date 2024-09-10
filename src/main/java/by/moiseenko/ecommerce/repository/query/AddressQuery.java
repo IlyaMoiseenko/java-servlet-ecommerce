@@ -22,8 +22,9 @@ public class AddressQuery {
     public static final String FIND_ALL =
             """
             SELECT *
-            FROM %s
-            """.formatted(ADDRESS.getName());
+            FROM %s address
+            JOIN %s country on address.country_id = country.country_id
+            """.formatted(ADDRESS.getName(), COUNTRY.getName());
 
     public static final String REMOVE_BY_ID =
             """
