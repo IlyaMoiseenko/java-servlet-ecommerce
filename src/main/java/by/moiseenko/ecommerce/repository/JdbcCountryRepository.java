@@ -6,10 +6,7 @@ import by.moiseenko.ecommerce.repository.mapper.CountryResultSetMapper;
 import by.moiseenko.ecommerce.repository.mapper.ResultSetMapper;
 import by.moiseenko.ecommerce.repository.query.CountryQuery;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +19,7 @@ public class JdbcCountryRepository implements CountryRepository {
     public Long save(Country domain) {
 
         try (Connection connection = JdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(CountryQuery.SAVE);
+            PreparedStatement preparedStatement = connection.prepareStatement(CountryQuery.SAVE, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, domain.getName());
             preparedStatement.execute();
 

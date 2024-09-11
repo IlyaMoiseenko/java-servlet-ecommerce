@@ -6,10 +6,7 @@ import by.moiseenko.ecommerce.repository.mapper.AddressResultSetMapper;
 import by.moiseenko.ecommerce.repository.mapper.ResultSetMapper;
 import by.moiseenko.ecommerce.repository.query.AddressQuery;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +19,7 @@ public class JdbcAddressRepository implements AddressRepository {
     public Long save(Address domain) {
 
         try (Connection connection = JdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(AddressQuery.SAVE);
+            PreparedStatement preparedStatement = connection.prepareStatement(AddressQuery.SAVE, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, domain.getCity());
             preparedStatement.setInt(2, domain.getPostalCode());
             preparedStatement.setString(3, domain.getStreetName());

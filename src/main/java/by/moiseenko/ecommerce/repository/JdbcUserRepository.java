@@ -7,10 +7,7 @@ import by.moiseenko.ecommerce.repository.mapper.ResultSetMapper;
 import by.moiseenko.ecommerce.repository.mapper.UserResultSetMapper;
 import by.moiseenko.ecommerce.repository.query.UserQuery;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +20,11 @@ public class JdbcUserRepository implements UserRepository {
     public Optional<User> findByEmail(String email) {
 
         try (Connection connection = JdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(UserQuery.FIND_BY_EMAIL);
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    UserQuery.FIND_BY_EMAIL,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY
+            );
             preparedStatement.setString(1, email);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -40,7 +41,11 @@ public class JdbcUserRepository implements UserRepository {
     public Optional<User> findByFirstName(String name) {
 
         try (Connection connection = JdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(UserQuery.FIND_BY_FIRST_NAME);
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    UserQuery.FIND_BY_FIRST_NAME,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY
+            );
             preparedStatement.setString(1, name);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -57,7 +62,7 @@ public class JdbcUserRepository implements UserRepository {
     public Long save(User domain) {
 
         try (Connection connection = JdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(UserQuery.SAVE);
+            PreparedStatement preparedStatement = connection.prepareStatement(UserQuery.SAVE, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, domain.getEmail());
             preparedStatement.setString(2, domain.getPassword());
             preparedStatement.setString(3, domain.getFirstName());
@@ -79,7 +84,11 @@ public class JdbcUserRepository implements UserRepository {
     public Optional<User> findById(Long id) {
 
         try (Connection connection = JdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(UserQuery.FIND_BY_ID);
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    UserQuery.FIND_BY_ID,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY
+            );
             preparedStatement.setLong(1, id);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -96,7 +105,11 @@ public class JdbcUserRepository implements UserRepository {
     public List<User> findAll() {
 
         try (Connection connection = JdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(UserQuery.FIND_ALL);
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    UserQuery.FIND_ALL,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY
+            );
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 return resultSetMapper.mapRows(resultSet);
@@ -142,7 +155,7 @@ public class JdbcUserRepository implements UserRepository {
     public Long addRole(User to, Role role) {
 
         try (Connection connection = JdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(UserQuery.ADD_ROLE);
+            PreparedStatement preparedStatement = connection.prepareStatement(UserQuery.ADD_ROLE, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1, to.getId());
             preparedStatement.setLong(2, role.getId());
             preparedStatement.execute();
