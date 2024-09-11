@@ -11,5 +11,5 @@ import lombok.experimental.SuperBuilder;
 @ToString
 public class BaseDomain {
 
-    private Long id;
+    protected Long id;
 }
