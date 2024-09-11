@@ -5,7 +5,9 @@ import by.moiseenko.ecommerce.domain.Country;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CountryResultSetMapper implements ResultSetMapper<Country> {
 
@@ -26,7 +28,7 @@ public class CountryResultSetMapper implements ResultSetMapper<Country> {
     @Override
     public List<Country> mapRows(ResultSet resultSet) throws SQLException {
 
-        List<Country> countries = new ArrayList<>();
+        Set<Country> countries = new HashSet<>();
 
         while (resultSet.next()) {
             Country build = Country
@@ -38,6 +40,20 @@ public class CountryResultSetMapper implements ResultSetMapper<Country> {
             countries.add(build);
         }
 
-        return countries;
+        return new ArrayList<>(countries);
+    }
+
+    @Override
+    public Country mapRow(ResultSet resultSet, int row) throws SQLException {
+
+        if (resultSet.absolute(row)) {
+            return Country
+                    .builder()
+                    .id(resultSet.getLong("country_id"))
+                    .name(resultSet.getString("country_name"))
+                    .build();
+        }
+
+        return null;
     }
 }

@@ -5,7 +5,9 @@ import by.moiseenko.ecommerce.domain.Role;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RoleResultSetMapper implements ResultSetMapper<Role> {
 
@@ -15,7 +17,8 @@ public class RoleResultSetMapper implements ResultSetMapper<Role> {
         if (resultSet.next()) {
             return Role
                     .builder()
-                    .name(resultSet.getString("name"))
+                    .id(resultSet.getLong("role_id"))
+                    .name(resultSet.getString("role_name"))
                     .build();
         }
 
@@ -25,17 +28,32 @@ public class RoleResultSetMapper implements ResultSetMapper<Role> {
     @Override
     public List<Role> mapRows(ResultSet resultSet) throws SQLException {
 
-        List<Role> roles = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
 
         while (resultSet.next()) {
             Role build = Role
                     .builder()
-                    .name(resultSet.getString("name"))
+                    .id(resultSet.getLong("role_id"))
+                    .name(resultSet.getString("role_name"))
                     .build();
 
             roles.add(build);
         }
 
-        return roles;
+        return new ArrayList<>(roles);
+    }
+
+    @Override
+    public Role mapRow(ResultSet resultSet, int row) throws SQLException {
+
+        if (resultSet.absolute(row)) {
+            return Role
+                    .builder()
+                    .id(resultSet.getLong("role_id"))
+                    .name(resultSet.getString("role_name"))
+                    .build();
+        }
+
+        return null;
     }
 }

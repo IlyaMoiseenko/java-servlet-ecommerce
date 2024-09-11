@@ -6,17 +6,16 @@ import by.moiseenko.ecommerce.domain.Country;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AddressResultSetMapper implements ResultSetMapper<Address> {
 
-    private final CountryResultSetMapper countryMapper = new CountryResultSetMapper();
+    private final ResultSetMapper<Country> countryMapper = new CountryResultSetMapper();
 
     @Override
     public Address mapRow(ResultSet resultSet) throws SQLException {
-
-        Country country = countryMapper.mapRow(resultSet);
-        resultSet.beforeFirst();
 
         if (resultSet.next()) {
             return Address
@@ -26,7 +25,7 @@ public class AddressResultSetMapper implements ResultSetMapper<Address> {
                     .postalCode(resultSet.getInt("postal_code"))
                     .streetName(resultSet.getString("street_name"))
                     .apartmentNumber(resultSet.getInt("apartment_number"))
-                    .country(country)
+                    .country(countryMapper.mapRow(resultSet, resultSet.getRow()))
                     .build();
         }
 
@@ -35,24 +34,41 @@ public class AddressResultSetMapper implements ResultSetMapper<Address> {
 
     @Override
     public List<Address> mapRows(ResultSet resultSet) throws SQLException {
-        List<Address> addresses = new ArrayList<>();
+
+        Set<Address> addresses = new HashSet<>();
 
         while (resultSet.next()) {
             Address build = Address
                     .builder()
+                    .id(resultSet.getLong("address_id"))
                     .city(resultSet.getString("city"))
                     .postalCode(resultSet.getInt("postal_code"))
                     .streetName(resultSet.getString("street_name"))
                     .apartmentNumber(resultSet.getInt("apartment_number"))
+                    .country(countryMapper.mapRow(resultSet, resultSet.getRow()))
                     .build();
-
-            resultSet.previous();
-
-            build.setCountry(countryMapper.mapRow(resultSet));
 
             addresses.add(build);
         }
 
-        return addresses;
+        return new ArrayList<>(addresses);
+    }
+
+    @Override
+    public Address mapRow(ResultSet resultSet, int row) throws SQLException {
+
+        if (resultSet.absolute(row)) {
+            return Address
+                    .builder()
+                    .id(resultSet.getLong("address_id"))
+                    .city(resultSet.getString("city"))
+                    .postalCode(resultSet.getInt("postal_code"))
+                    .streetName(resultSet.getString("street_name"))
+                    .apartmentNumber(resultSet.getInt("apartment_number"))
+                    .country(countryMapper.mapRow(resultSet, row))
+                    .build();
+        }
+
+        return null;
     }
 }
