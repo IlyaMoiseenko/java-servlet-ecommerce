@@ -11,6 +11,20 @@ import java.util.Set;
 
 public class RoleResultSetMapper implements ResultSetMapper<Role> {
 
+    // FIELD
+    private static RoleResultSetMapper instance;
+
+    // CONSTRUCTOR
+    private RoleResultSetMapper() {};
+
+    // METHOD
+    public static RoleResultSetMapper getInstance() {
+        if (instance == null)
+            instance = new RoleResultSetMapper();
+
+        return instance;
+    }
+
     @Override
     public Role mapRow(ResultSet resultSet) throws SQLException {
 

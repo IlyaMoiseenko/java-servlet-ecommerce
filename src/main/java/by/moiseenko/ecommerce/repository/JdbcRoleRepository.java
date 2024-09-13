@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class JdbcRoleRepository implements RoleRepository {
 
-    private final ResultSetMapper<Role> resultSetMapper = new RoleResultSetMapper();
+    private final ResultSetMapper<Role> resultSetMapper = RoleResultSetMapper.getInstance();
 
     @Override
     public Optional<Role> findByName(String name) {

@@ -13,8 +13,21 @@ import java.util.Set;
 
 public class UserResultSetMapper implements ResultSetMapper<User> {
 
-    private final ResultSetMapper<Address> addressResultSetMapper = new AddressResultSetMapper();
-    private final ResultSetMapper<Role> roleResultSetMapper = new RoleResultSetMapper();
+    // FIELD
+    private static UserResultSetMapper instance;
+    private final ResultSetMapper<Address> addressResultSetMapper = AddressResultSetMapper.getInstance();
+    private final ResultSetMapper<Role> roleResultSetMapper = RoleResultSetMapper.getInstance();
+
+    // CONSTRUCTOR
+    private UserResultSetMapper() {};
+
+    // METHOD
+    public static UserResultSetMapper getInstance() {
+        if (instance == null)
+            instance = new UserResultSetMapper();
+
+        return instance;
+    }
 
     @Override
     public User mapRow(ResultSet resultSet) throws SQLException {

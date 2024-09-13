@@ -12,7 +12,20 @@ import java.util.Set;
 
 public class AddressResultSetMapper implements ResultSetMapper<Address> {
 
-    private final ResultSetMapper<Country> countryMapper = new CountryResultSetMapper();
+    // FIELD
+    private static AddressResultSetMapper instance;
+    private final ResultSetMapper<Country> countryMapper = CountryResultSetMapper.getInstance();
+
+    // CONSTRUCTOR
+    private AddressResultSetMapper() {};
+
+    // METHOD
+    public static AddressResultSetMapper getInstance() {
+        if (instance == null)
+            instance = new AddressResultSetMapper();
+
+        return instance;
+    }
 
     @Override
     public Address mapRow(ResultSet resultSet) throws SQLException {

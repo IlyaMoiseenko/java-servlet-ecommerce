@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class JdbcUserRepository implements UserRepository {
 
-    private final ResultSetMapper<User> resultSetMapper = new UserResultSetMapper();
+    private final ResultSetMapper<User> resultSetMapper = UserResultSetMapper.getInstance();
 
     @Override
     public Optional<User> findByEmail(String email) {

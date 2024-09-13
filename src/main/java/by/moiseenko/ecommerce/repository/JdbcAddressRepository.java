@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class JdbcAddressRepository implements AddressRepository {
 
-    private final ResultSetMapper<Address> resultSetMapper = new AddressResultSetMapper();
+    private final ResultSetMapper<Address> resultSetMapper = AddressResultSetMapper.getInstance();
 
     @Override
     public Long save(Address domain) {
