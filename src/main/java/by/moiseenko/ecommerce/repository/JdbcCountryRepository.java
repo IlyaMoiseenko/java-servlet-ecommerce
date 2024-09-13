@@ -13,7 +13,20 @@ import java.util.Optional;
 
 public class JdbcCountryRepository implements CountryRepository {
 
+    // FIELD
+    private static JdbcCountryRepository instance;
     private final ResultSetMapper<Country> resultSetMapper = CountryResultSetMapper.getInstance();
+
+    // CONSTRUCTOR
+    private JdbcCountryRepository() {};
+
+    // METHOD
+    public static JdbcCountryRepository getInstance() {
+        if (instance == null)
+            instance = new JdbcCountryRepository();
+
+        return instance;
+    }
 
     @Override
     public Long save(Country domain) {
