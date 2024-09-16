@@ -5,6 +5,8 @@ import by.moiseenko.ecommerce.domain.Address;
 import by.moiseenko.ecommerce.repository.mapper.AddressResultSetMapper;
 import by.moiseenko.ecommerce.repository.mapper.ResultSetMapper;
 import by.moiseenko.ecommerce.repository.query.AddressQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import java.util.Optional;
 public class JdbcAddressRepository implements AddressRepository {
 
     // FIELD
+    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcAddressRepository.class);
     private static JdbcAddressRepository instance;
     private final ResultSetMapper<Address> resultSetMapper = AddressResultSetMapper.getInstance();
 
@@ -45,7 +48,7 @@ public class JdbcAddressRepository implements AddressRepository {
                     return generatedKeys.getLong(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while saving address", e);
         }
 
         return 0L;
@@ -66,7 +69,7 @@ public class JdbcAddressRepository implements AddressRepository {
                 return Optional.ofNullable(resultSetMapper.mapRow(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while finding address by id: {}", id, e);
         }
 
         return Optional.empty();
@@ -85,7 +88,7 @@ public class JdbcAddressRepository implements AddressRepository {
                 return resultSetMapper.mapRows(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while finding add addresses", e);
         }
 
         return new ArrayList<>();
@@ -100,7 +103,7 @@ public class JdbcAddressRepository implements AddressRepository {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while removing address by id: {}", id, e);
         }
     }
 
@@ -118,7 +121,7 @@ public class JdbcAddressRepository implements AddressRepository {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while updating address", e);
         }
     }
 }
