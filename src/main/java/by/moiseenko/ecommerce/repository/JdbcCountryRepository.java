@@ -5,6 +5,8 @@ import by.moiseenko.ecommerce.domain.Country;
 import by.moiseenko.ecommerce.repository.mapper.CountryResultSetMapper;
 import by.moiseenko.ecommerce.repository.mapper.ResultSetMapper;
 import by.moiseenko.ecommerce.repository.query.CountryQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import java.util.Optional;
 public class JdbcCountryRepository implements CountryRepository {
 
     // FIELD
+    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcCountryRepository.class);
     private static JdbcCountryRepository instance;
     private final ResultSetMapper<Country> resultSetMapper = CountryResultSetMapper.getInstance();
 
@@ -41,7 +44,7 @@ public class JdbcCountryRepository implements CountryRepository {
                     return generatedKeys.getLong(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while saving country", e);
         }
 
         return 0L;
@@ -58,7 +61,7 @@ public class JdbcCountryRepository implements CountryRepository {
                 return Optional.ofNullable(resultSetMapper.mapRow(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while finding country by id: {}", id, e);
         }
 
         return Optional.empty();
@@ -75,7 +78,7 @@ public class JdbcCountryRepository implements CountryRepository {
                 return Optional.ofNullable(resultSetMapper.mapRow(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while finding country by name: {}", name, e);
         }
 
         return Optional.empty();
@@ -91,7 +94,7 @@ public class JdbcCountryRepository implements CountryRepository {
                 return resultSetMapper.mapRows(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while finding all countries", e);
         }
 
         return new ArrayList<>();
@@ -106,7 +109,7 @@ public class JdbcCountryRepository implements CountryRepository {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while removing country by id: {}", id, e);
         }
     }
 
@@ -120,7 +123,7 @@ public class JdbcCountryRepository implements CountryRepository {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while updating country", e);
         }
     }
 }
