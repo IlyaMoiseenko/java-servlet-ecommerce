@@ -5,6 +5,8 @@ import by.moiseenko.ecommerce.domain.Role;
 import by.moiseenko.ecommerce.repository.mapper.ResultSetMapper;
 import by.moiseenko.ecommerce.repository.mapper.RoleResultSetMapper;
 import by.moiseenko.ecommerce.repository.query.RoleQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class JdbcRoleRepository implements RoleRepository {
 
     // FIELD
     private static JdbcRoleRepository instance;
+    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcRoleRepository.class);
     private final ResultSetMapper<Role> resultSetMapper = RoleResultSetMapper.getInstance();
 
     // CONSTRUCTOR
@@ -27,6 +30,7 @@ public class JdbcRoleRepository implements RoleRepository {
 
         return instance;
     }
+
     @Override
     public Optional<Role> findByName(String name) {
 
@@ -38,7 +42,7 @@ public class JdbcRoleRepository implements RoleRepository {
                 return Optional.ofNullable(resultSetMapper.mapRow(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while finding role by name: {}", name, e);
         }
 
         return Optional.empty();
@@ -57,7 +61,7 @@ public class JdbcRoleRepository implements RoleRepository {
                     return generatedKeys.getLong(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while saving role", e);
         }
 
         return 0L;
@@ -74,7 +78,7 @@ public class JdbcRoleRepository implements RoleRepository {
                 return Optional.ofNullable(resultSetMapper.mapRow(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while finding role by id: {}", id, e);
         }
 
         return Optional.empty();
@@ -90,7 +94,7 @@ public class JdbcRoleRepository implements RoleRepository {
                 return resultSetMapper.mapRows(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while finding all role", e);
         }
 
         return new ArrayList<>();
@@ -105,7 +109,7 @@ public class JdbcRoleRepository implements RoleRepository {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while removing role by id: {}", id, e);
         }
     }
 
@@ -119,7 +123,7 @@ public class JdbcRoleRepository implements RoleRepository {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while updating role", e);
         }
     }
 }
