@@ -6,7 +6,7 @@ public class RoleQuery {
 
     public static final String SAVE =
             """
-            INSERT INTO %s (name)
+            INSERT INTO %s (role_name)
             VALUES (?)
             """.formatted(ROLE.getName());
 
@@ -21,7 +21,7 @@ public class RoleQuery {
             """
             SELECT *
             FROM %s
-            WHERE name = ?
+            WHERE role_name = ?
             """.formatted(ROLE.getName());
 
     public static final String FIND_ALL =
