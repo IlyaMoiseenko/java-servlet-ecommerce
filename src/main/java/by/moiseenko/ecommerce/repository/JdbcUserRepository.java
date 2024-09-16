@@ -6,6 +6,8 @@ import by.moiseenko.ecommerce.domain.User;
 import by.moiseenko.ecommerce.repository.mapper.ResultSetMapper;
 import by.moiseenko.ecommerce.repository.mapper.UserResultSetMapper;
 import by.moiseenko.ecommerce.repository.query.UserQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class JdbcUserRepository implements UserRepository {
 
     // FIELD
+    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcUserRepository.class);
     private static JdbcUserRepository instance;
     private final ResultSetMapper<User> resultSetMapper = UserResultSetMapper.getInstance();
 
@@ -44,7 +47,7 @@ public class JdbcUserRepository implements UserRepository {
                 return Optional.ofNullable(resultSetMapper.mapRow(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while finding user by email: {}", email, e);
         }
 
         return Optional.empty();
@@ -65,7 +68,7 @@ public class JdbcUserRepository implements UserRepository {
                 return Optional.ofNullable(resultSetMapper.mapRow(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while finding user by first name: {}", name, e);
         }
 
         return Optional.empty();
@@ -87,7 +90,7 @@ public class JdbcUserRepository implements UserRepository {
                     return generatedKeys.getLong(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while saving user", e);
         }
 
         return 0L;
@@ -108,7 +111,7 @@ public class JdbcUserRepository implements UserRepository {
                 return Optional.ofNullable(resultSetMapper.mapRow(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while finding user by id: {}", id, e);
         }
 
         return Optional.empty();
@@ -128,7 +131,7 @@ public class JdbcUserRepository implements UserRepository {
                 return resultSetMapper.mapRows(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while finding users", e);
         }
 
         return new ArrayList<>();
@@ -143,7 +146,7 @@ public class JdbcUserRepository implements UserRepository {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while removing user by id: {}", id, e);
         }
     }
 
@@ -160,7 +163,7 @@ public class JdbcUserRepository implements UserRepository {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while updating user", e);
         }
     }
 
@@ -178,7 +181,7 @@ public class JdbcUserRepository implements UserRepository {
                     return generatedKeys.getLong(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while add role to user", e);
         }
 
         return 0L;
