@@ -78,12 +78,12 @@ public class JdbcUserRepository implements UserRepository {
     public Long save(User domain) {
 
         try (Connection connection = JdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(UserQuery.SAVE, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(UserQuery.SAVE, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, domain.getEmail());
             preparedStatement.setString(2, domain.getPassword());
             preparedStatement.setString(3, domain.getFirstName());
             preparedStatement.setString(4, domain.getLastName());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
 
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next())
