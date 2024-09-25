@@ -4,18 +4,20 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import by.moiseenko.ecommerce.db.RoleName;
 import by.moiseenko.ecommerce.domain.Role;
 import by.moiseenko.ecommerce.domain.User;
+import by.moiseenko.ecommerce.domain.dto.request.AuthenticationRequest;
 import by.moiseenko.ecommerce.domain.dto.request.UserRequest;
+import by.moiseenko.ecommerce.domain.dto.response.UserResponse;
 import by.moiseenko.ecommerce.domain.mapper.UserMapper;
 import by.moiseenko.ecommerce.domain.validation.UserValidator;
 import by.moiseenko.ecommerce.domain.validation.Validator;
 import by.moiseenko.ecommerce.exception.DomainNotFoundException;
 import by.moiseenko.ecommerce.exception.ResourceMappingException;
+import by.moiseenko.ecommerce.exception.ValidationException;
 import by.moiseenko.ecommerce.repository.JdbcRoleRepository;
 import by.moiseenko.ecommerce.repository.JdbcUserRepository;
 import by.moiseenko.ecommerce.repository.RoleRepository;
 import by.moiseenko.ecommerce.repository.UserRepository;
 
-import java.util.List;
 import java.util.Map;
 
 public class AuthenticationService {
@@ -53,6 +55,18 @@ public class AuthenticationService {
         addRoleToUser(user, RoleName.USER.getName());
 
         return true;
+    }
+
+    public UserResponse authenticate(AuthenticationRequest request) {
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
+                () -> new DomainNotFoundException(User.class, Map.of("User email", request.getEmail()))
+        );
+
+        BCrypt.Result verify = BCrypt.verifyer().verify(request.getPassword().toCharArray(), user.getPassword());
+        if (!verify.verified)
+            throw new ValidationException("Incorrect password. Please, try again!");
+
+        return userMapper.toResponse(user);
     }
 
     private void addRoleToUser(User user, String roleName) {
