@@ -8,11 +8,11 @@ public class UserQuery {
             """
             SELECT *
             FROM %s u
-            JOIN %s user_address on u.user_id = user_address.user_id
-            JOIN %s address on user_address.address_id = address.address_id
-            JOIN %s country on address.country_id = country.country_id
-            JOIN %s user_role on u.user_id = user_role.user_id
-            JOIN %s role on user_role.role_id = role.role_id
+            LEFT JOIN %s user_address on u.user_id = user_address.user_id
+            LEFT JOIN %s address on user_address.address_id = address.address_id
+            LEFT JOIN %s country on address.country_id = country.country_id
+            LEFT JOIN %s user_role on u.user_id = user_role.user_id
+            LEFT JOIN %s role on user_role.role_id = role.role_id
             WHERE u.email = ?
             """.formatted(
                     USER.getName(),
@@ -27,11 +27,11 @@ public class UserQuery {
             """
             SELECT *
             FROM %s u
-            JOIN %s user_address on u.user_id = user_address.user_id
-            JOIN %s address on user_address.address_id = address.address_id
-            JOIN %s country on address.country_id = country.country_id
-            JOIN %s user_role on u.user_id = user_role.user_id
-            JOIN %s role on user_role.role_id = role.role_id
+            LEFT JOIN %s user_address on u.user_id = user_address.user_id
+            LEFT JOIN %s address on user_address.address_id = address.address_id
+            LEFT JOIN %s country on address.country_id = country.country_id
+            LEFT JOIN %s user_role on u.user_id = user_role.user_id
+            LEFT JOIN %s role on user_role.role_id = role.role_id
             WHERE u.first_name = ?
             """.formatted(
                     USER.getName(),
@@ -46,11 +46,11 @@ public class UserQuery {
             """
             SELECT *
             FROM %s u
-            JOIN %s user_address on u.user_id = user_address.user_id
-            JOIN %s address on user_address.address_id = address.address_id
-            JOIN %s country on address.country_id = country.country_id
-            JOIN %s user_role on u.user_id = user_role.user_id
-            JOIN %s role on user_role.role_id = role.role_id
+            LEFT JOIN %s user_address on u.user_id = user_address.user_id
+            LEFT JOIN %s address on user_address.address_id = address.address_id
+            LEFT JOIN %s country on address.country_id = country.country_id
+            LEFT JOIN %s user_role on u.user_id = user_role.user_id
+            LEFT JOIN %s role on user_role.role_id = role.role_id
             WHERE u.user_id = ?
             """.formatted(
                     USER.getName(),
@@ -65,11 +65,11 @@ public class UserQuery {
             """
             SELECT *
             FROM %s u
-            JOIN %s user_address on u.user_id = user_address.user_id
-            JOIN %s address on user_address.address_id = address.address_id
-            JOIN %s country on address.country_id = country.country_id
-            JOIN %s user_role on u.user_id = user_role.user_id
-            JOIN %s role on user_role.role_id = role.role_id
+            LEFT JOIN %s user_address on u.user_id = user_address.user_id
+            LEFT JOIN %s address on user_address.address_id = address.address_id
+            LEFT JOIN %s country on address.country_id = country.country_id
+            LEFT JOIN %s user_role on u.user_id = user_role.user_id
+            LEFT JOIN %s role on user_role.role_id = role.role_id
             """.formatted(
                     USER.getName(),
                     USER_ADDRESS.getName(),
